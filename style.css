@@ -17,10 +17,28 @@ th {
 }
 
 .delete-book{
-    font-size: x-small;
-    color: red;
-    font-weight: bold;
+    font-size: small;
+    color: rgb(204, 0, 0);
+    font-weight:900;
     cursor: pointer;
     border: none;
     background-color: transparent;
+}
+
+.section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

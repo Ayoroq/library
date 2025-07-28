@@ -87,7 +87,7 @@ function capitalizeFirstLetter(string) {
   try {
     const allWords = string.split(" ");
     const capitalizedWords = allWords.map((word) => {
-      return word.charAt(0).toUpperCase() + word.slice(1);
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     });
     return capitalizedWords.join(" ");
   } catch (error) {
@@ -99,7 +99,6 @@ function capitalizeFirstLetter(string) {
 // function to add a new book to the table when the add book is selected
 function renderBookRow(book) {
   try {
-    const tableBody = document.querySelector("tbody");
     const row = document.createElement("tr");
     row.setAttribute("data-book-id", book.bookId);
     row.innerHTML = `
@@ -157,9 +156,16 @@ function loadLibraryFromLocalStorage() {
   }
 }
 
+//DOM elements
 const dialog = document.querySelector("dialog");
 const showButton = document.querySelector(".add-book");
 const submitButton = document.querySelector(".submit-book");
+const form = document.querySelector("#form");
+const titleInput = document.querySelector("#title");
+const authorInput = document.querySelector("#author");
+const pagesInput = document.querySelector("#pages");
+const readStatusSelect = document.querySelector("#readStatus");
+const tableBody = document.querySelector("tbody");
 
 // Event handler to show the add book dialog
 showButton.addEventListener("click", () => {
@@ -170,10 +176,10 @@ showButton.addEventListener("click", () => {
 submitButton.addEventListener("click", (event) => {
   try {
     event.preventDefault();
-    const titleValue = document.querySelector("#title").value;
-    const authorValue = document.querySelector("#author").value;
-    const pagesValue = document.querySelector("#pages").value;
-    const readStatus = document.querySelector("#readStatus").value;
+    const titleValue = titleInput.value;
+    const authorValue = authorInput.value;
+    const pagesValue = pagesInput.value;
+    const readStatus = readStatusSelect.value;
 
     if (!validateInput(titleValue, authorValue, pagesValue)) {
       return;
@@ -192,22 +198,22 @@ submitButton.addEventListener("click", (event) => {
     renderBookRow(book);
 
     // Reset form and close dialog
-    document.querySelector("#form").reset();
+    form.reset();
     dialog.close();
-    document.querySelector("#title").focus();
+    titleInput.focus();
   } catch (error) {
     console.log(error);
   }
 });
 
 // Event to delete a row from the table and also remove book
-document.querySelector("tbody").addEventListener("click", (event) => {
+tableBody.addEventListener("click", (event) => {
   try {
     if (event.target.classList.contains("delete-book")) {
       const row = event.target.closest("tr");
       const bookId = row.dataset.bookId;
       const book = findBookById(bookId);
-      if (book) {
+      if (book && confirm(`Are you sure you want to delete "${book.title}"?`)) {
         removeBookRow(book);
       }
     }
@@ -217,7 +223,7 @@ document.querySelector("tbody").addEventListener("click", (event) => {
 });
 
 // Event to toggle the read status of a book using event delegation
-document.querySelector("tbody").addEventListener("change", (event) => {
+tableBody.addEventListener("change", (event) => {
   try {
     if (event.target.classList.contains("read-status")) {
       const row = event.target.closest("tr");

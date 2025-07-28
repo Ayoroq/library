@@ -10,6 +10,22 @@
   <body>
     <main>
       <h1>Library</h1>
+      <section>
+        <button type="button">+ Add Book</button>
+        <dialog>
+          <form>
+            <input type="text" name="title" placeholder="Title" required />
+            <input type="text" name="author" placeholder="Author" required />
+            <input type="number" name="pages" placeholder="Pages" required />
+            <label for="readStatus">Read Status:</label>
+            <select name="readStatus" id="readStatus">
+              <option value="true">Read</option>
+              <option value="false">Not Read</option>
+            </select>
+            <button type="submit">Add Book</button>
+          </form>
+        </dialog>
+      </section>
       <table>
         <caption>
           Books
@@ -35,7 +51,7 @@
               </select>
             </td>
             <td>
-              <button>X</button>
+              <button type="button" aria-label="Delete book">X</button>
             </td>
           </tr>
           <tr data-book-id="b2">
@@ -49,7 +65,7 @@
               </select>
             </td>
             <td>
-              <button>X</button>
+              <button type="button" aria-label="Delete book">X</button>
             </td>
           </tr>
           <tr data-book-id="b3">
@@ -63,7 +79,7 @@
               </select>
             </td>
             <td>
-              <button>X</button>
+              <button type="button" aria-label="Delete book">X</button>
             </td>
           </tr>
           <tr data-book-id="b4">
@@ -77,7 +93,7 @@
               </select>
             </td>
             <td>
-              <button>X</button>
+              <button type="button" aria-label="Delete book">X</button>
             </td>
           </tr>
           <tr data-book-id="b5">
@@ -91,7 +107,7 @@
               </select>
             </td>
             <td>
-              <button>X</button>
+              <button type="button" aria-label="Delete book">X</button>
             </td>
           </tr>
         </tbody>

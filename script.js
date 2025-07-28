@@ -50,6 +50,20 @@ function removeBookFromLibrary(bookId) {
   }
 }
 
+// function to capitalize the first letter of each word
+function capitalizeFirstLetter(string) {
+    try {
+        const allWords = string.split(" ");
+        const capitalizedWords = allWords.map((word) => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        });
+        return capitalizedWords.join(" ");
+    } catch (error) {
+        console.log(error)
+    }
+  
+}
+
 // function to add a new book to the table when the add book is selected
 function renderBookRow(book) {
   const tableBody = document.querySelector("tbody");
@@ -103,15 +117,15 @@ showButton.addEventListener("click", () => {
 // Event to add a book to library and also render
 submitButton.addEventListener("click", (event) => {
   event.preventDefault();
-  const title = document.querySelector("#title").value;
-  const author = document.querySelector("#author").value;
+  const title = capitalizeFirstLetter(document.querySelector("#title").value);
+  const author = capitalizeFirstLetter(document.querySelector("#author").value);
   const pages = document.querySelector("#pages").value;
   const readStatus = document.querySelector("#readStatus").value;
   if (!title || !author || !pages || !readStatus) {
     alert("Please fill in all fields");
     return;
   }
-  const book = addBookToLibrary(title, author, pages, readStatus);
+  const book = addBookToLibrary(title, author, pages, readStatus === "true");;
   renderBookRow(book);
   dialog.close();
 });
@@ -141,4 +155,3 @@ document.querySelector("tbody").addEventListener("change", (event) => {
 });
 
 loadLibraryFromLocalStorage();
-console.log(myLibrary);

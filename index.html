@@ -11,18 +11,29 @@
     <main>
       <h1>Library</h1>
       <section>
-        <button type="button">+ Add Book</button>
+        <button type="button" class="add-book" aria-label="Add book">+ Add Book</button>
         <dialog>
-          <form>
-            <input type="text" name="title" placeholder="Title" required />
-            <input type="text" name="author" placeholder="Author" required />
-            <input type="number" name="pages" placeholder="Pages" required />
-            <label for="readStatus">Read Status:</label>
-            <select name="readStatus" id="readStatus">
-              <option value="true">Read</option>
-              <option value="false">Not Read</option>
-            </select>
-            <button type="submit">Add Book</button>
+          <form method="dialog" id="form" name="form">
+            <p>
+              <label for="title">Title:</label>
+              <input autofocus type="text" name="title" id="title" placeholder="Title" required />
+            </p>
+            <p>
+              <label for="author">Author:</label>
+              <input type="text" name="author" id="author" placeholder="Author" required />
+            </p>
+            <p>
+              <label for="pages">Pages:</label>
+              <input type="number" name="pages" id="pages" placeholder="Pages" required />
+            </p>
+            <p>
+              <label for="readStatus">Read Status:</label>
+              <select name="readStatus" id="readStatus">
+                <option value="true">Read</option>
+                <option value="false">Not Read</option>
+              </select>
+            </p>
+            <button type="submit" class="submit-book" aria-label="Add book to library">Add Book</button>
           </form>
         </dialog>
       </section>
@@ -51,7 +62,7 @@
               </select>
             </td>
             <td>
-              <button type="button" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">X</button>
             </td>
           </tr>
           <tr data-book-id="b2">
@@ -65,7 +76,7 @@
               </select>
             </td>
             <td>
-              <button type="button" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">X</button>
             </td>
           </tr>
           <tr data-book-id="b3">
@@ -79,7 +90,7 @@
               </select>
             </td>
             <td>
-              <button type="button" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">X</button>
             </td>
           </tr>
           <tr data-book-id="b4">
@@ -93,7 +104,7 @@
               </select>
             </td>
             <td>
-              <button type="button" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">X</button>
             </td>
           </tr>
           <tr data-book-id="b5">
@@ -107,11 +118,12 @@
               </select>
             </td>
             <td>
-              <button type="button" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">X</button>
             </td>
           </tr>
         </tbody>
       </table>
     </main>
+    <script src="script.js"></script>
   </body>
 </html>

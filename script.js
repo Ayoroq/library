@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const myLibrary = [];
 
 // This is the book constructor for making book objects
-function Book(title, author, pages, read) {
+function Book(title, author, pages,read) {
   try {
     if (!new.target) {
       throw Error('You must use the "new" keyword to create a book object');

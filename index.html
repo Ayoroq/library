@@ -12,7 +12,7 @@
       <h1>Library</h1>
       <section>
         <button type="button" class="add-book" aria-label="Add book">+ Add Book</button>
-        <dialog>
+        <dialog closedby="any">
           <form method="dialog" id="form" name="form">
             <p>
               <label for="title">Title:</label>
@@ -56,13 +56,13 @@
             <td>Orson Scott Card</td>
             <td>324</td>
             <td>
-              <select>
+              <select class="read-status">
                 <option value="true" selected>Read</option>
                 <option value="false">Not Read</option>
               </select>
             </td>
             <td>
-              <button type="button" class="delete-book" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button>
             </td>
           </tr>
           <tr data-book-id="b2">
@@ -70,13 +70,13 @@
             <td>Claire North</td>
             <td>405</td>
             <td>
-              <select>
+              <select class="read-status">
                 <option value="true" selected>Read</option>
                 <option value="false">Not Read</option>
               </select>
             </td>
             <td>
-              <button type="button" class="delete-book" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button>
             </td>
           </tr>
           <tr data-book-id="b3">
@@ -84,13 +84,13 @@
             <td>William Gibson</td>
             <td>271</td>
             <td>
-              <select>
+              <select class="read-status">
                 <option value="true">Read</option>
                 <option value="false" selected>Not Read</option>
               </select>
             </td>
             <td>
-              <button type="button" class="delete-book" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button>
             </td>
           </tr>
           <tr data-book-id="b4">
@@ -98,13 +98,13 @@
             <td>George Orwell</td>
             <td>328</td>
             <td>
-              <select>
+              <select class="read-status">
                 <option value="true" selected>Read</option>
                 <option value="false">Not Read</option>
               </select>
             </td>
             <td>
-              <button type="button" class="delete-book" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button>
             </td>
           </tr>
           <tr data-book-id="b5">
@@ -112,13 +112,13 @@
             <td>Frank Herbert</td>
             <td>412</td>
             <td>
-              <select>
+              <select class="read-status">
                 <option value="true">Read</option>
                 <option value="false" selected>Not Read</option>
               </select>
             </td>
             <td>
-              <button type="button" class="delete-book" aria-label="Delete book">X</button>
+              <button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button>
             </td>
           </tr>
         </tbody>

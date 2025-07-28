@@ -26,6 +26,15 @@ Book.prototype.info = function () {
   }`;
 };
 
+Book.prototype.toggleRead = function () {
+  if (this.read) {
+    this.read = false;
+  } else {
+    this.read = true;
+  }
+  saveLibraryToLocalStorage();
+};
+
 function addBookToLibrary(title, author, pages, read) {
   const newBook = new Book(title, author, pages, read);
   myLibrary.push(newBook);
@@ -37,7 +46,7 @@ function removeBookFromLibrary(bookId) {
   const index = myLibrary.findIndex((book) => book.bookId === bookId);
   if (index !== -1) {
     myLibrary.splice(index, 1);
-    saveLibraryToLocalStorage()
+    saveLibraryToLocalStorage();
   }
 }
 
@@ -51,21 +60,21 @@ function renderBookRow(book) {
     <td>${book.author}</td>
     <td>${book.pages}</td>
     <td>
-        <select>
+        <select class="read-status">
         <option value="true" ${book.read ? "selected" : ""}>Read</option>
         <option value="false" ${!book.read ? "selected" : ""}>Not Read</option>
       </select>
     </td>
-    <td><button type="button" class="delete-book" aria-label="Delete book">X</button></td>
+    <td><button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button></td>
   `;
   tableBody.appendChild(row);
 }
 
 // function to remove row when the delete row button is clicked
-function removeBookRow(book){
-    removeBookFromLibrary(book.bookId);
-    const row = document.querySelector(`[data-book-id="${book.bookId}"]`);
-    row.remove();
+function removeBookRow(book) {
+  removeBookFromLibrary(book.bookId);
+  const row = document.querySelector(`[data-book-id="${book.bookId}"]`);
+  row.remove();
 }
 
 function saveLibraryToLocalStorage() {
@@ -86,6 +95,7 @@ const dialog = document.querySelector("dialog");
 const showButton = document.querySelector(".add-book");
 const submitButton = document.querySelector(".submit-book");
 const deleteButton = document.querySelectorAll(".delete-book");
+const readStatus = document.querySelectorAll(".read-status");
 
 showButton.addEventListener("click", () => {
   dialog.showModal();
@@ -98,20 +108,37 @@ submitButton.addEventListener("click", (event) => {
   const author = document.querySelector("#author").value;
   const pages = document.querySelector("#pages").value;
   const readStatus = document.querySelector("#readStatus").value;
+  if (!title || !author || !pages || !readStatus) {
+    alert("Please fill in all fields");
+    return;
+  }
   const book = addBookToLibrary(title, author, pages, readStatus);
   renderBookRow(book);
   dialog.close();
 });
 
-// Event to delete a row from the table and also remove book 
+// Event to delete a row from the table and also remove book
 deleteButton.forEach((button) => {
   button.addEventListener("click", (event) => {
+    console.log("clicked");
     const row = event.target.closest("tr");
-    const bookId = row.dataset['data-book-id'];
+    const bookId = row.dataset["data-book-id"];
     const book = myLibrary.find((book) => book.bookId === bookId);
     removeBookRow(book);
     removeBookFromLibrary(book.bookId);
   });
 });
 
+// Event to toggle the read status of a book
+readStatus.forEach((select) => {
+  select.addEventListener("change", (event) => {
+    console.log("status changed");
+    const row = event.target.closest("tr");
+    const bookId = row.dataset["data-book-id"];
+    const book = myLibrary.find((book) => book.bookId === bookId);
+    book.toggleRead();
+  });
+});
+
 loadLibraryFromLocalStorage();
+console.log(myLibrary);

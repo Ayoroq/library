@@ -5,7 +5,7 @@ table {
 
 th,
 td {
-  border: 1px solid #ddd; /* Add a light border to cells */
+  border-bottom: 1px solid #ddd; /* Add a light border to cells */
   padding: 8px; /* Add padding for spacing between content and border */
   text-align: left; /* Align text to the left within cells */
 }

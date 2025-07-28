@@ -95,7 +95,6 @@ const dialog = document.querySelector("dialog");
 const showButton = document.querySelector(".add-book");
 const submitButton = document.querySelector(".submit-book");
 const deleteButton = document.querySelectorAll(".delete-book");
-const readStatus = document.querySelectorAll(".read-status");
 
 showButton.addEventListener("click", () => {
   dialog.showModal();
@@ -118,26 +117,27 @@ submitButton.addEventListener("click", (event) => {
 });
 
 // Event to delete a row from the table and also remove book
-deleteButton.forEach((button) => {
-  button.addEventListener("click", (event) => {
-    console.log("clicked");
+document.querySelector("tbody").addEventListener("click", (event) => {
+  if (event.target.classList.contains("delete-book")) {
     const row = event.target.closest("tr");
-    const bookId = row.dataset["data-book-id"];
+    const bookId = row.dataset.bookId;
     const book = myLibrary.find((book) => book.bookId === bookId);
-    removeBookRow(book);
-    removeBookFromLibrary(book.bookId);
-  });
+    if (book) {
+      removeBookRow(book);
+    }
+  }
 });
 
-// Event to toggle the read status of a book
-readStatus.forEach((select) => {
-  select.addEventListener("change", (event) => {
-    console.log("status changed");
+// Event to toggle the read status of a book using event delegation
+document.querySelector("tbody").addEventListener("change", (event) => {
+  if (event.target.classList.contains("read-status")) {
     const row = event.target.closest("tr");
-    const bookId = row.dataset["data-book-id"];
+    const bookId = row.dataset.bookId;
     const book = myLibrary.find((book) => book.bookId === bookId);
-    book.toggleRead();
-  });
+    if (book) {
+      book.toggleRead();
+    }
+  }
 });
 
 loadLibraryFromLocalStorage();

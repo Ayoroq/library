@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playwrite+US+Modern:wght@100..400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -11,20 +17,41 @@
     <main class="main">
       <h1>Library</h1>
       <section class="section">
-        <button type="button" class="add-book" aria-label="Add book">+ Add Book</button>
+        <button type="button" class="add-book" aria-label="Add book">
+          + Add Book
+        </button>
         <dialog closedby="any" class="dialog">
           <form method="dialog" id="form" name="form" class="form">
             <p>
               <label for="title">Title:</label>
-              <input autofocus type="text" name="title" id="title" placeholder="Title" required />
+              <input
+                autofocus
+                type="text"
+                name="title"
+                id="title"
+                placeholder="Title"
+                required
+              />
             </p>
             <p>
               <label for="author">Author:</label>
-              <input type="text" name="author" id="author" placeholder="Author" required />
+              <input
+                type="text"
+                name="author"
+                id="author"
+                placeholder="Author"
+                required
+              />
             </p>
             <p>
               <label for="pages">Pages:</label>
-              <input type="number" name="pages" id="pages" placeholder="Pages" required />
+              <input
+                type="number"
+                name="pages"
+                id="pages"
+                placeholder="Pages"
+                required
+              />
             </p>
             <p>
               <label for="readStatus">Read Status:</label>
@@ -33,7 +60,13 @@
                 <option value="false">Not Read</option>
               </select>
             </p>
-            <button type="submit" class="submit-book" aria-label="Add book to library">Add Book</button>
+            <button
+              type="submit"
+              class="submit-book"
+              aria-label="Add book to library"
+            >
+              Add Book
+            </button>
           </form>
         </dialog>
       </section>
@@ -50,8 +83,7 @@
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
       </table>
     </main>
     <script src="script.js"></script>

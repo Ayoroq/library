@@ -11,6 +11,9 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: var(--text-colour);
+  font-family: "Playwrite US Modern", cursive;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 .main {
@@ -40,7 +43,7 @@ td {
 }
 
 th {
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 .delete-book {
@@ -70,10 +73,15 @@ th {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+}
+
 .form {
-  width: 30em;
+  width: 25em;
   max-width: 80%;
-  margin: 0 auto;
+  margin: 4em auto;
   gap: 1em;
   display: flex;
   flex-direction: column;
@@ -102,13 +110,21 @@ th {
   border-radius: 8px;
   border: none;
   background-color: var(--button-colour);
+  cursor: pointer;
+  transition: ease-in 0.2s;
+  transform: translateY(2px);
 }
 
-.add-book{
+.add-book:hover,
+.submit-book:hover {
+  transform: translateY(-2px);
+}
+
+.add-book {
   margin: 1rem 0;
 }
 
-.caption{
+.caption {
   text-align: left;
   font-size: x-large;
   padding: 1rem 0;

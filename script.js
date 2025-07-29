@@ -102,15 +102,13 @@ function renderBookRow(book) {
     const row = document.createElement("tr");
     row.setAttribute("data-book-id", book.bookId);
     row.innerHTML = `
-      <td>${book.title}</td>
-      <td>${book.author}</td>
-      <td>${book.pages}</td>
-      <td>
-          <select class="read-status">
+      <td class="book-title">${book.title}</td>
+      <td class="book-author">${book.author}</td>
+      <td  class="book-pages">${book.pages}</td>
+      <td class="book-read">
+          <select class="read-status ${book.read ? "read" : "not-read"}">
           <option value="true" ${book.read ? "selected" : ""}>Read</option>
-          <option value="false" ${
-            !book.read ? "selected" : ""
-          }>Not Read</option>
+          <option value="false" ${!book.read ? "selected" : ""}>Not Read</option>
         </select>
       </td>
       <td><button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button></td>
@@ -194,7 +192,7 @@ submitButton.addEventListener("click", (event) => {
       alert("Failed to add book. Please try again.");
       return;
     }
-    
+
     renderBookRow(book);
 
     // Reset form and close dialog
@@ -226,17 +224,103 @@ tableBody.addEventListener("click", (event) => {
 tableBody.addEventListener("change", (event) => {
   try {
     if (event.target.classList.contains("read-status")) {
-      const row = event.target.closest("tr");
-      const bookId = row.dataset.bookId;
-      const book = findBookById(bookId);
-      if (book) {
-        book.toggleRead();
-      }
+    const select = event.target;
+    const row = select.closest("tr");
+    const bookId = row.dataset.bookId;
+    const book = myLibrary.find((book) => book.bookId === bookId);
+    if (book) {
+      book.toggleRead();
     }
+
+    // Remove old class
+    select.classList.remove("read", "not-read");
+
+    // Add new class based on value
+    if (select.value === "true") {
+      select.classList.add("read");
+    } else {
+      select.classList.add("not-read");
+    }
+  }
   } catch (error) {
     console.log(error);
   }
 });
+
+// Add 20 sample books to localStorage if not already present
+if (!localStorage.getItem("myLibrary")) {
+  const testBooks = [
+    { title: "1984", author: "George Orwell", pages: 328, read: true },
+    { title: "The Hobbit", author: "J.R.R. Tolkien", pages: 310, read: false },
+    { title: "Dune", author: "Frank Herbert", pages: 412, read: true },
+    {
+      title: "Pride and Prejudice",
+      author: "Jane Austen",
+      pages: 279,
+      read: true,
+    },
+    {
+      title: "To Kill a Mockingbird",
+      author: "Harper Lee",
+      pages: 281,
+      read: false,
+    },
+    { title: "Neuromancer", author: "William Gibson", pages: 271, read: true },
+    {
+      title: "Brave New World",
+      author: "Aldous Huxley",
+      pages: 311,
+      read: false,
+    },
+    { title: "Fahrenheit 451", author: "Ray Bradbury", pages: 194, read: true },
+    {
+      title: "Ender's Game The First Fifteen Lives of Harry August",
+      author: "Orson Scott Card",
+      pages: 324,
+      read: true,
+    },
+    {
+      title: "The Catcher in the Rye",
+      author: "J.D. Salinger",
+      pages: 234,
+      read: false,
+    },
+    { title: "The Giver", author: "Lois Lowry", pages: 208, read: true },
+    { title: "Animal Farm", author: "George Orwell", pages: 112, read: false },
+    { title: "The Martian", author: "Andy Weir", pages: 369, read: true },
+    { title: "Snow Crash", author: "Neal Stephenson", pages: 480, read: false },
+    {
+      title: "Slaughterhouse-Five",
+      author: "Kurt Vonnegut",
+      pages: 275,
+      read: true,
+    },
+    { title: "The Road", author: "Cormac McCarthy", pages: 287, read: true },
+    {
+      title: "The Left Hand of Darkness",
+      author: "Ursula K. Le Guin",
+      pages: 304,
+      read: false,
+    },
+    { title: "Frankenstein", author: "Mary Shelley", pages: 280, read: true },
+    {
+      title: "The Time Machine",
+      author: "H.G. Wells",
+      pages: 118,
+      read: false,
+    },
+    {
+      title: "The First Fifteen Lives of Harry August ",
+      author: "Claire North",
+      pages: 405,
+      read: true,
+    },
+  ];
+  testBooks.forEach(({ title, author, pages, read }) => {
+    const book = addBookToLibrary(title, author, pages, read);
+    renderBookRow(book);
+  });
+}
 
 // Load saved books when page loads
 loadLibraryFromLocalStorage();

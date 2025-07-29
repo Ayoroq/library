@@ -1,3 +1,32 @@
+:root {
+  --button-colour: #1eff78;
+  --main-colour: #1e90ff;
+  --cancel-colour: #ff1e1e;
+  --text-colour: black;
+  --read-colour: #1da754;
+  --not-read-colour: #ae1d1d;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: var(--text-colour);
+}
+
+.main {
+  background-color: var(--main-colour);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 100%;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  padding: 2rem 0;
+}
+
 table {
   width: 100%; /* Make the table fill its container */
   border-collapse: collapse; /* Collapse borders for a cleaner look */
@@ -5,31 +34,29 @@ table {
 
 th,
 td {
-  border-bottom: 1px solid #ddd; /* Add a light border to cells */
+  border-bottom: 1px solid #0c0c0c; /* Add a light border to cells */
   padding: 8px; /* Add padding for spacing between content and border */
   text-align: left; /* Align text to the left within cells */
 }
 
 th {
-  background-color: #f2f2f2; /* Light gray background for headers */
-  color: black; /* Dark text color for contrast */
-  font-weight: bold; /* Bold text for header emphasis */
+  font-weight: bold; 
 }
 
-.delete-book{
-    font-size: small;
-    color: rgb(204, 0, 0);
-    font-weight:900;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
+.delete-book {
+  font-size: small;
+  color: var(--cancel-colour);
+  font-weight: 900;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
 }
 
-.section{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .dialog {
@@ -41,4 +68,58 @@ th {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form {
+  width: 30em;
+  max-width: 80%;
+  margin: 0 auto;
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.form p {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 0.25em;
+}
+
+.submit-book {
+  margin: 0 auto;
+}
+
+.book-title {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.add-book,
+.submit-book {
+  width: max-content;
+  padding: 0.5em 1.5em;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--button-colour);
+}
+
+.add-book{
+  margin: 1rem 0;
+}
+
+.caption{
+  text-align: left;
+  font-size: x-large;
+  padding: 1rem 0;
+}
+
+.read-status.read {
+  background-color: var(--read-colour);
+  color: white;
+}
+
+.read-status.not-read {
+  background-color: var(--not-read-colour);
+  color: white;
 }

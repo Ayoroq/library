@@ -8,13 +8,29 @@ A simple web application for managing a personal book collection. This project w
 - **View Library:** All books are displayed in a clean, organized table.
 - **Update Status:** Toggle the read status of a book directly from the library view.
 - **Remove Books:** Delete books from the library with a confirmation prompt.
+- **Input Validation:** Form validates empty fields and ensures page numbers are positive integers.
+- **Auto-capitalization:** Book titles and authors are automatically formatted with proper capitalization.
+- **Error Handling:** Robust error handling prevents crashes and provides user feedback.
+- **Delete Confirmation:** Confirmation dialog prevents accidental book deletion.
 - **Persistent Storage:** Your library is saved to the browser's local storage, so your collection persists between sessions.
 
 ## Technologies Used
 
 - HTML5
 - CSS3 (Flexbox)
-- Vanilla JavaScript (ES6+)
+- Vanilla JavaScript (ES6+):
+  - Event delegation
+  - Template literals
+  - Arrow functions
+  - Try-catch error handling
+  - Crypto API for unique IDs
+
+## User Experience Features
+
+- **Smart Form Handling:** Form automatically resets and focuses on title field after adding books
+- **Visual Feedback:** Read status changes are reflected immediately with CSS classes
+- **Keyboard Accessible:** Full keyboard navigation support with proper ARIA labels
+- **Input Sanitization:** Automatic trimming of whitespace and proper data validation
 
 ## Setup
 

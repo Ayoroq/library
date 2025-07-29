@@ -104,11 +104,13 @@ function renderBookRow(book) {
     row.innerHTML = `
       <td class="book-title">${book.title}</td>
       <td class="book-author">${book.author}</td>
-      <td  class="book-pages">${book.pages}</td>
+      <td class="book-pages">${book.pages}</td>
       <td class="book-read">
           <select class="read-status ${book.read ? "read" : "not-read"}">
           <option value="true" ${book.read ? "selected" : ""}>Read</option>
-          <option value="false" ${!book.read ? "selected" : ""}>Not Read</option>
+          <option value="false" ${
+            !book.read ? "selected" : ""
+          }>Not Read</option>
         </select>
       </td>
       <td><button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button></td>
@@ -224,29 +226,28 @@ tableBody.addEventListener("click", (event) => {
 tableBody.addEventListener("change", (event) => {
   try {
     if (event.target.classList.contains("read-status")) {
-    const select = event.target;
-    const row = select.closest("tr");
-    const bookId = row.dataset.bookId;
-    const book = myLibrary.find((book) => book.bookId === bookId);
-    if (book) {
-      book.toggleRead();
-    }
+      const select = event.target;
+      const row = select.closest("tr");
+      const bookId = row.dataset.bookId;
+      const book = findBookById(bookId);
+      if (book) {
+        book.toggleRead();
+      }
 
-    // Remove old class
-    select.classList.remove("read", "not-read");
+      // Remove old class
+      select.classList.remove("read", "not-read");
 
-    // Add new class based on value
-    if (select.value === "true") {
-      select.classList.add("read");
-    } else {
-      select.classList.add("not-read");
+      // Add new class based on value
+      if (select.value === "true") {
+        select.classList.add("read");
+      } else {
+        select.classList.add("not-read");
+      }
     }
-  }
   } catch (error) {
     console.log(error);
   }
 });
-   
 
 // Load saved books when page loads
 loadLibraryFromLocalStorage();

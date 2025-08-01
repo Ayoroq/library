@@ -1,62 +1,62 @@
 // Importing the crypto module for the unique bookid's
 // const crypto = require("crypto");
 
-// Main library object where all the books will be stored
-const myLibrary = [];
-
 // This is the book constructor for making book objects
-function Book(title, author, pages, read) {
-  try {
-    if (!new.target) {
-      throw Error('You must use the "new" keyword to create a book object');
-    }
+class Book {
+  constructor(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = Boolean(read);
     this.bookId = crypto.randomUUID();
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
-}
 
-// Returns formatted book information string
-Book.prototype.info = function () {
-  return `${this.title} by ${this.author}, ${this.pages} pages, ${
-    this.read ? "read" : "not read"
-  }`;
-};
+  // provides information about the book
+  info() {
+    return `${this.title} by ${this.author}, ${this.pages} pages, ${
+      this.read ? "read" : "not read"
+    }`;
+  }
 
-// Toggles the read status of a book
-Book.prototype.toggleRead = function () {
-  this.read = !this.read;
-  saveLibraryToLocalStorage();
-};
-
-// Creates a new book and adds it to the library
-function addBookToLibrary(title, author, pages, read) {
-  try {
-    const newBook = new Book(title, author, pages, read);
-    myLibrary.push(newBook);
+  // toggles the read status of book
+  toggleRead() {
+    this.read = !this.read;
     saveLibraryToLocalStorage();
-    return newBook;
-  } catch (error) {
-    console.log(error);
-    return null;
   }
 }
 
-// Removes a book from the library by bookId
-function removeBookFromLibrary(bookId) {
-  try {
-    const index = myLibrary.findIndex((book) => book.bookId === bookId);
-    if (index !== -1) {
-      myLibrary.splice(index, 1);
+class Library {
+  constructor(title, author, pages, read) {
+    this.myLibrary = [];
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
+
+  // Creates a new book and adds it to the library
+  addBookToLibrary(title, author, pages, read) {
+    try {
+      const newBook = new Book(title, author, pages, read);
+      this.myLibrary.push(newBook);
       saveLibraryToLocalStorage();
+      return newBook;
+    } catch (error) {
+      console.log(error);
+      return null;
     }
-  } catch (error) {
-    console.log(error);
+  }
+  // Removes a book from the library by bookId
+  removeBookFromLibrary(bookId) {
+    try {
+      const index = this.myLibrary.findIndex((book) => book.bookId === bookId);
+      if (index !== -1) {
+        this.myLibrary.splice(index, 1);
+        saveLibraryToLocalStorage();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

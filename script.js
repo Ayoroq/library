@@ -1,6 +1,3 @@
-// Importing the crypto module for the unique bookid's
-// const crypto = require("crypto");
-
 // This is the book constructor for making book objects
 class Book {
   constructor(title, author, pages, read) {
@@ -21,25 +18,21 @@ class Book {
   // toggles the read status of book
   toggleRead() {
     this.read = !this.read;
-    saveLibraryToLocalStorage();
+    library.saveLibraryToLocalStorage();
   }
 }
 
 class Library {
-  constructor(title, author, pages, read) {
-    this.myLibrary = [];
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-  }
+  constructor() {
+  this.myLibrary = [];
+}
 
   // Creates a new book and adds it to the library
   addBookToLibrary(title, author, pages, read) {
     try {
       const newBook = new Book(title, author, pages, read);
       this.myLibrary.push(newBook);
-      saveLibraryToLocalStorage();
+      this.saveLibraryToLocalStorage();
       return newBook;
     } catch (error) {
       console.log(error);
@@ -52,11 +45,40 @@ class Library {
       const index = this.myLibrary.findIndex((book) => book.bookId === bookId);
       if (index !== -1) {
         this.myLibrary.splice(index, 1);
-        saveLibraryToLocalStorage();
+        this.saveLibraryToLocalStorage();
       }
     } catch (error) {
       console.log(error);
     }
+  }
+
+  // Saves the current library to localStorage
+  saveLibraryToLocalStorage() {
+    try {
+      localStorage.setItem("myLibrary", JSON.stringify(this.myLibrary));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Loads library from localStorage and renders books
+  loadLibraryFromLocalStorage() {
+    try {
+      const storedLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [];
+      storedLibrary.forEach(({ title, author, pages, read, bookId }) => {
+        const book = new Book(title, author, pages, read);
+        book.bookId = bookId; // restore original ID
+        this.myLibrary.push(book);
+        new BookRow(book).renderBookRow();
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  // Finds a book by bookId
+  // function to find book by ID
+  findBookById(bookId) {
+    return this.myLibrary.find((book) => book.bookId === bookId);
   }
 }
 
@@ -77,11 +99,6 @@ function validateInput(title, author, pages) {
   return true;
 }
 
-// function to find book by ID
-function findBookById(bookId) {
-  return myLibrary.find((book) => book.bookId === bookId);
-}
-
 // function to capitalize the first letter of each word
 function capitalizeFirstLetter(string) {
   try {
@@ -96,67 +113,52 @@ function capitalizeFirstLetter(string) {
   }
 }
 
-// function to add a new book to the table when the add book is selected
-function renderBookRow(book) {
-  try {
-    const row = document.createElement("tr");
-    row.setAttribute("data-book-id", book.bookId);
-    row.innerHTML = `
-      <td class="book-title">${book.title}</td>
-      <td class="book-author">${book.author}</td>
-      <td class="book-pages">${book.pages}</td>
+class BookRow {
+  constructor(book) {
+    this.book = book;
+  }
+
+  renderBookRow() {
+    try {
+      const row = document.createElement("tr");
+      this.row = row;
+      this.row.setAttribute("data-book-id", this.book.bookId);
+      this.row.innerHTML = `
+      <td class="book-title">${this.book.title}</td>
+      <td class="book-author">${this.book.author}</td>
+      <td class="book-pages">${this.book.pages}</td>
       <td class="book-read">
-          <select class="read-status ${book.read ? "read" : "not-read"}">
-          <option value="true" ${book.read ? "selected" : ""}>Read</option>
+          <select class="read-status ${this.book.read ? "read" : "not-read"}">
+          <option value="true" ${this.book.read ? "selected" : ""}>Read</option>
           <option value="false" ${
-            !book.read ? "selected" : ""
+            !this.book.read ? "selected" : ""
           }>Not Read</option>
         </select>
       </td>
       <td><button type="button" class="delete-book" aria-label="Delete book">&#x2715;</button></td>
     `;
-    tableBody.appendChild(row);
-  } catch (error) {
-    console.log(error);
+      tableBody.appendChild(row);
+    } catch (error) {
+      console.log(error);
+    }
   }
-}
 
-// function to remove row when the delete row button is clicked
-function removeBookRow(book) {
-  try {
-    removeBookFromLibrary(book.bookId);
-    const row = document.querySelector(`[data-book-id="${book.bookId}"]`);
-    row.remove();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// Saves the current library to localStorage
-function saveLibraryToLocalStorage() {
-  try {
-    localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-// Loads library from localStorage and renders books
-function loadLibraryFromLocalStorage() {
-  try {
-    const storedLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [];
-    storedLibrary.forEach(({ title, author, pages, read, bookId }) => {
-      const book = new Book(title, author, pages, read);
-      book.bookId = bookId; // restore original ID
-      myLibrary.push(book);
-      renderBookRow(book);
-    });
-  } catch (error) {
-    console.log(error);
+  removeBookRow() {
+    try {
+       library.removeBookFromLibrary(this.book.bookId);
+      const row = document.querySelector(
+        `[data-book-id="${this.book.bookId}"]`
+      );
+      this.row = row;
+      this.row.remove();
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
 //DOM elements
+const library = new Library();
 const dialog = document.querySelector("dialog");
 const showButton = document.querySelector(".add-book");
 const submitButton = document.querySelector(".submit-book");
@@ -189,13 +191,13 @@ submitButton.addEventListener("click", (event) => {
     const author = capitalizeFirstLetter(authorValue.trim());
     const pages = parseInt(pagesValue);
 
-    const book = addBookToLibrary(title, author, pages, readStatus === "true");
+    const book =  library.addBookToLibrary(title, author, pages, readStatus === "true");
     if (!book) {
       alert("Failed to add book. Please try again.");
       return;
     }
 
-    renderBookRow(book);
+    new BookRow(book).renderBookRow();
 
     // Reset form and close dialog
     form.reset();
@@ -212,9 +214,9 @@ tableBody.addEventListener("click", (event) => {
     if (event.target.classList.contains("delete-book")) {
       const row = event.target.closest("tr");
       const bookId = row.dataset.bookId;
-      const book = findBookById(bookId);
+      const book = library.findBookById(bookId);
       if (book && confirm(`Are you sure you want to delete "${book.title}"?`)) {
-        removeBookRow(book);
+        new BookRow(book).removeBookRow();
       }
     }
   } catch (error) {
@@ -229,7 +231,7 @@ tableBody.addEventListener("change", (event) => {
       const select = event.target;
       const row = select.closest("tr");
       const bookId = row.dataset.bookId;
-      const book = findBookById(bookId);
+      const book = library.findBookById(bookId);
       if (book) {
         book.toggleRead();
       }
@@ -250,4 +252,4 @@ tableBody.addEventListener("change", (event) => {
 });
 
 // Load saved books when page loads
-loadLibraryFromLocalStorage();
+library.loadLibraryFromLocalStorage();

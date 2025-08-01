@@ -42,6 +42,10 @@ td {
   text-align: left; /* Align text to the left within cells */
 }
 
+td{
+  background-color: white;
+}
+
 th {
   font-weight: bold;
 }

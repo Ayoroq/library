@@ -1,11 +1,17 @@
 // This is the book constructor for making book objects
 class Book {
-  constructor(title, author, pages, read) {
+  #bookId;
+
+  constructor(title, author, pages, read, existingId = null) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = Boolean(read);
-    this.bookId = crypto.randomUUID();
+    this.#bookId = existingId || crypto.randomUUID();
+  }
+
+  get bookId() {
+    return this.#bookId;
   }
 
   // provides information about the book
@@ -23,15 +29,13 @@ class Book {
 }
 
 class Library {
-  constructor() {
-  this.myLibrary = [];
-}
+  #books = [];
 
   // Creates a new book and adds it to the library
   addBookToLibrary(title, author, pages, read) {
     try {
       const newBook = new Book(title, author, pages, read);
-      this.myLibrary.push(newBook);
+      this.#books.push(newBook);
       this.saveLibraryToLocalStorage();
       return newBook;
     } catch (error) {
@@ -39,12 +43,16 @@ class Library {
       return null;
     }
   }
+  get books() {
+    return [...this.#books];
+  }
+
   // Removes a book from the library by bookId
   removeBookFromLibrary(bookId) {
     try {
-      const index = this.myLibrary.findIndex((book) => book.bookId === bookId);
+      const index = this.#books.findIndex((book) => book.bookId === bookId);
       if (index !== -1) {
-        this.myLibrary.splice(index, 1);
+        this.#books.splice(index, 1);
         this.saveLibraryToLocalStorage();
       }
     } catch (error) {
@@ -55,7 +63,7 @@ class Library {
   // Saves the current library to localStorage
   saveLibraryToLocalStorage() {
     try {
-      localStorage.setItem("myLibrary", JSON.stringify(this.myLibrary));
+      localStorage.setItem("myLibrary", JSON.stringify(this.#books));
     } catch (error) {
       console.log(error);
     }
@@ -66,9 +74,8 @@ class Library {
     try {
       const storedLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [];
       storedLibrary.forEach(({ title, author, pages, read, bookId }) => {
-        const book = new Book(title, author, pages, read);
-        book.bookId = bookId; // restore original ID
-        this.myLibrary.push(book);
+        const book = new Book(title, author, pages, read, bookId);
+        this.#books.push(book);
         new BookRow(book).renderBookRow();
       });
     } catch (error) {
@@ -76,9 +83,8 @@ class Library {
     }
   }
   // Finds a book by bookId
-  // function to find book by ID
   findBookById(bookId) {
-    return this.myLibrary.find((book) => book.bookId === bookId);
+    return this.#books.find((book) => book.bookId === bookId);
   }
 }
 
